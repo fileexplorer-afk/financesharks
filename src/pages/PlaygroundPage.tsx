@@ -1,5 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card,CardHeader,CardDescription,CardTitle,CardContent } from "@/components/ui/card";
+import {InputGroup,InputLabel,InputDescription,Input} from "@/components/ui/input"
+import {Heading,Text,Muted,Metric,GradientText} from "@/components/ui/typography"
+import {Badge} from "@/components/ui/badge"
+import {Avatar} from "@/components/ui/avatar"
 
 export function PlaygroundPage() {
   return (
@@ -74,6 +78,93 @@ export function PlaygroundPage() {
     </p>
   </CardContent>
 </Card>
+
+<InputGroup className="max-w-md">
+  <InputLabel>
+    Email Address
+  </InputLabel>
+
+  <Input
+    type="email"
+    placeholder="you@example.com"
+  />
+
+  <InputDescription>
+    We’ll never share your email.
+  </InputDescription>
+</InputGroup>
+<div className="space-y-4">
+  <Heading level={1}>
+    Welcome back
+  </Heading>
+
+  <Text>
+    Track your financial growth with real-time insights.
+  </Text>
+
+  <Muted>
+    Last updated 2 minutes ago
+  </Muted>
+
+  <Metric>
+    ₹2,45,000
+  </Metric>
+
+  <GradientText>
+    +18.2% this month
+  </GradientText>
+</div>
+<div className="flex flex-wrap gap-3">
+
+  <Badge>
+    Default
+  </Badge>
+
+  <Badge variant="success">
+    Completed
+  </Badge>
+
+  <Badge variant="danger">
+    Failed
+  </Badge>
+
+  <Badge variant="warning">
+    Pending
+  </Badge>
+
+  <Badge variant="info">
+    Processing
+  </Badge>
+
+  <Badge variant="violet">
+    Premium
+  </Badge>
+
+  <Badge variant="outline">
+    Draft
+  </Badge>
+
+</div>
+<div className="flex items-center gap-4">
+
+  <Avatar
+    fallback="RK"
+    size="sm"
+    online
+  />
+
+  <Avatar
+    size="lg"
+    fallback="JS"
+  />
+
+  <Avatar
+    size="xl"
+    fallback="AI"
+    online
+  />
+
+</div>
     </div>
   );
 }
