@@ -145,23 +145,30 @@ export function PlaygroundPage() {
   </Badge>
 
 </div>
-<div className="flex items-center gap-4">
+<div className="flex items-end gap-6">
 
   <Avatar
     fallback="RK"
     size="sm"
-    online
+    status="online"
   />
 
   <Avatar
-    size="lg"
     fallback="JS"
+    size="lg"
+    status="idle"
   />
 
   <Avatar
-    size="xl"
     fallback="AI"
-    online
+    size="xl"
+    status="dnd"
+  />
+
+  <Avatar
+    fallback="OP"
+    size="lg"
+    status="offline"
   />
 
 </div>

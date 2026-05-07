@@ -6,27 +6,14 @@ import { cn } from "@/utils/cn";
 
 const avatarVariants = cva(
   [
-    // Layout
-    "relative inline-flex shrink-0 overflow-hidden",
-
-    // Shape
-    "rounded-full",
-
-    // Surface
-    "bg-gradient-to-b from-zinc-800 to-zinc-900",
-
-    // Border
-    "border border-white/[0.08]",
+    // Root
+    "relative inline-flex shrink-0",
 
     // Motion
-    "transition-all duration-300 ease-out",
-
-    // Polish
-    "shadow-lg shadow-black/30",
-    "backdrop-blur-xl",
+    "transform-gpu transition-all duration-300 ease-out",
 
     // Hover
-    "hover:scale-[1.02]",
+    "hover:scale-[1.03]",
   ],
   {
     variants: {
@@ -44,13 +31,19 @@ const avatarVariants = cva(
   }
 );
 
+type Status =
+  | "online"
+  | "idle"
+  | "dnd"
+  | "offline";
+
 export interface AvatarProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof avatarVariants> {
   src?: string;
   alt?: string;
   fallback?: string;
-  online?: boolean;
+  status?: Status;
 }
 
 export function Avatar({
@@ -59,12 +52,35 @@ export function Avatar({
   src,
   alt,
   fallback,
-  online,
+  status,
   ...props
 }: AvatarProps) {
-  const [imageError, setImageError] = React.useState(false);
+  const [imageError, setImageError] =
+    React.useState(false);
 
   const showFallback = !src || imageError;
+
+  const statusStyles = {
+    online: [
+      "bg-emerald-400",
+      "shadow-[0_0_16px_rgba(74,222,128,0.9)]",
+    ].join(" "),
+
+    idle: [
+      "bg-amber-400",
+      "shadow-[0_0_16px_rgba(251,191,36,0.9)]",
+    ].join(" "),
+
+    dnd: [
+      "bg-red-500",
+      "shadow-[0_0_16px_rgba(239,68,68,0.9)]",
+    ].join(" "),
+
+    offline: [
+      "bg-zinc-500",
+      "shadow-[0_0_10px_rgba(113,113,122,0.5)]",
+    ].join(" "),
+  };
 
   return (
     <div
@@ -74,57 +90,83 @@ export function Avatar({
       )}
       {...props}
     >
-      {!showFallback ? (
-        <img
-          src={src}
-          alt={alt}
-          onError={() => setImageError(true)}
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        <div
-          className={cn(
-            [
-              "flex h-full w-full items-center justify-center",
+      {/* Avatar Surface */}
+      <div
+        className={cn(
+          [
+            "h-full w-full overflow-hidden rounded-full",
 
-              // Typography
-              "font-medium tracking-tight text-white",
+            // Surface
+            "bg-gradient-to-b",
+            "from-zinc-800",
+            "to-zinc-900",
 
-              // Soft lighting
-              "bg-gradient-to-b",
-              "from-violet-500/20",
-              "to-fuchsia-500/10",
-            ],
-            size === "sm" && "text-xs",
-            size === "md" && "text-sm",
-            size === "lg" && "text-lg",
-            size === "xl" && "text-2xl"
-          )}
-        >
-          {fallback}
-        </div>
-      )}
+            // Border
+            "border border-white/[0.08]",
 
-      {online && (
+            // Depth
+            "shadow-lg shadow-black/30",
+
+            // Blur softness
+            "backdrop-blur-xl",
+          ]
+        )}
+      >
+        {!showFallback ? (
+          <img
+            src={src}
+            alt={alt}
+            onError={() => setImageError(true)}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div
+            className={cn(
+              [
+                "flex h-full w-full items-center justify-center",
+
+                // Typography
+                "font-semibold tracking-tight text-white antialiased",
+
+                // Gradient fallback
+                "bg-gradient-to-b",
+                "from-violet-500/20",
+                "via-fuchsia-500/10",
+                "to-transparent",
+              ],
+              size === "sm" && "text-xs",
+              size === "md" && "text-sm",
+              size === "lg" && "text-lg",
+              size === "xl" && "text-2xl"
+            )}
+          >
+            {fallback}
+          </div>
+        )}
+      </div>
+
+      {/* Status Indicator */}
+      {status && (
         <span
           className={cn(
             [
-              "absolute bottom-0 right-0",
+              "absolute bottom-0 right-0 z-20",
 
               // Shape
               "rounded-full",
 
-              // Status color
-              "bg-emerald-400",
+              // Overlay border
+              "border-[3px] border-[#09090B]",
 
-              // Border
-              "border-2 border-[#09090B]",
+              // Motion
+              "transition-all duration-300",
 
-              // Glow
-              "shadow-[0_0_12px_rgba(74,222,128,0.8)]",
+              // Status styles
+              statusStyles[status],
             ],
+
             size === "sm" && "h-2.5 w-2.5",
-            size === "md" && "h-3 w-3",
+            size === "md" && "h-3.5 w-3.5",
             size === "lg" && "h-4 w-4",
             size === "xl" && "h-5 w-5"
           )}
