@@ -1,12 +1,20 @@
-import type * as React from "react";
+export type ButtonVariant =
+  | 'primary'
+  | 'glass'
+  | 'success'
+  | 'danger'
+  | 'ghost'
+  | 'outline'
+  | 'gold';
 
-import type { VariantProps } from "class-variance-authority";
-
-import type { buttonVariants } from "./button-variants";
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   loading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  fullWidth?: boolean;
 }
