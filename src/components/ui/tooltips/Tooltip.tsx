@@ -120,8 +120,6 @@ function getPosition(
 ): { top: number; left: number } {
   const { top: tT, left: tL, right: tR, bottom: tB, width: tW, height: tH } = triggerRect;
   const { width: ttW, height: ttH } = tooltipRect;
-  const scroll = { x: window.scrollX, y: window.scrollY };
-
   const midX = tL + tW / 2 - ttW / 2;
   const midY = tT + tH / 2 - ttH / 2;
 

@@ -9,38 +9,7 @@ export function Card({
   return (
     <div
       className={cn(
-        [
-          // Layout
-          "relative overflow-hidden",
-
-          // Surface
-          "rounded-3xl border border-white/[0.06]",
-
-          // Background
-          "bg-[#101014]/80",
-
-          // Glass softness
-          "backdrop-blur-xl",
-
-          // Depth
-          "shadow-[0_0_0_1px_rgba(255,255,255,0.02)]",
-          "shadow-black/40",
-
-          // Motion
-          "transition-all duration-300 ease-out",
-
-          // Hover
-          "hover:border-white/[0.10]",
-          "hover:shadow-2xl",
-          "hover:shadow-black/50",
-
-          // Subtle glow layer
-          "before:absolute before:inset-0",
-          "before:bg-gradient-to-b",
-          "before:from-white/[0.03]",
-          "before:to-transparent",
-          "before:pointer-events-none",
-        ],
+        "relative overflow-hidden rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/80 backdrop-blur-xl shadow-[var(--shadow-md)] transition-all duration-300 ease-out hover:border-[var(--border-color-hover)]",
         className
       )}
       {...props}
@@ -54,10 +23,7 @@ export function CardHeader({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "flex items-center justify-between p-6",
-        className
-      )}
+      className={cn("flex items-center justify-between p-5", className)}
       {...props}
     />
   );
@@ -69,10 +35,7 @@ export function CardTitle({
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn(
-        "text-lg font-semibold tracking-tight text-white",
-        className
-      )}
+      className={cn("text-lg font-semibold tracking-tight text-[var(--text-primary)]", className)}
       {...props}
     />
   );
@@ -84,10 +47,7 @@ export function CardDescription({
 }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn(
-        "text-sm text-zinc-400",
-        className
-      )}
+      className={cn("text-sm text-[var(--text-tertiary)]", className)}
       {...props}
     />
   );
@@ -99,7 +59,7 @@ export function CardContent({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("px-6 pb-6", className)}
+      className={cn("px-5 pb-5", className)}
       {...props}
     />
   );
@@ -111,10 +71,7 @@ export function CardFooter({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "flex items-center px-6 pb-6 pt-2",
-        className
-      )}
+      className={cn("flex items-center px-5 pb-5 pt-2", className)}
       {...props}
     />
   );

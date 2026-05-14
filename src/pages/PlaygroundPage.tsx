@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Sparkles, AlertTriangle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -29,12 +30,18 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// ── New components ──────────────────────────────────────────────
+// ── Existing components ─────────────────────────────────────────
 import { Dropdown } from "@/components/ui/dropdown";
 import type { DropdownOption } from "@/components/ui/dropdown";
 import { Modal } from "@/components/ui/modal";
 import { Tabs, TabList, Tab, TabPanel, TabPanels } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltips";
+
+// ── Navigation components ───────────────────────────────────────
+import { Navbar }      from "@/components/navigation/navbar";
+import { Sidebar }     from "@/components/navigation/sidebar";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
+import type { NavItem, NavbarAction, SidebarGroup } from "@/components/navigation";
 
 // ── Icons (inline SVGs so there's no extra dep) ─────────────────
 const IconWallet = () => (
@@ -81,6 +88,104 @@ const accountOptions: DropdownOption[] = [
 
 // ────────────────────────────────────────────────────────────────
 
+// ── Inline SVG icons used by nav demos ─────────────────────────
+const IcoDashboard = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+    <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+    <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+    <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+  </svg>
+);
+const IcoTrend = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <polyline points="1,12 5,7 9,10 15,4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+    <polyline points="11,4 15,4 15,8"     stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const IcoPay = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <rect x="1" y="4" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M1 7h14" stroke="currentColor" strokeWidth="1.3"/>
+    <circle cx="12" cy="10" r="1" fill="currentColor"/>
+  </svg>
+);
+const IcoSave = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M8 2a4 4 0 014 4v3l1 1H3l1-1V6a4 4 0 014-4z" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M6.5 13a1.5 1.5 0 003 0" stroke="currentColor" strokeWidth="1.3"/>
+  </svg>
+);
+const IcoSet = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M2.9 13.1l1.4-1.4M11.7 4.3l1.4-1.4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+);
+const IcoBell = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M8 2a4 4 0 014 4v3l1 1H3l1-1V6a4 4 0 014-4z" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M6.5 13a1.5 1.5 0 003 0" stroke="currentColor" strokeWidth="1.3"/>
+  </svg>
+);
+const IcoSearch = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M10 10l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+  </svg>
+);
+const IcoHome = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <path d="M1 7L7 1l6 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M3 5v6a1 1 0 001 1h2v-3h2v3h2a1 1 0 001-1V5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const IcoReport = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M4 5h6M4 8h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+);
+
+// ── Nav demo data ────────────────────────────────────────────────
+const navItems: NavItem[] = [
+  { key: "dashboard",    label: "Dashboard",    icon: <IcoDashboard />, active: true },
+  { key: "portfolio",    label: "Portfolio",    icon: <IcoTrend /> },
+  { key: "payments",     label: "Payments",     icon: <IcoPay />,   badge: 3 },
+  { key: "savings",      label: "Savings",      icon: <IcoSave /> },
+  { key: "settings",     label: "Settings",     icon: <IcoSet />,   disabled: true },
+];
+
+const navActions: NavbarAction[] = [
+  { key: "search", icon: <IcoSearch />, label: "Search" },
+  { key: "bell",   icon: <IcoBell />,   label: "Notifications", badge: 5 },
+];
+
+const sidebarGroups: SidebarGroup[] = [
+  {
+    label: "Overview",
+    items: [
+      { key: "dash",   label: "Dashboard",  icon: <IcoDashboard />, active: true },
+      { key: "port",   label: "Portfolio",   icon: <IcoTrend />,    badge: "Live", badgeVariant: "success" },
+    ],
+  },
+  {
+    label: "Money",
+    items: [
+      { key: "pay",   label: "Payments",    icon: <IcoPay />,  badge: 3, badgeVariant: "info" },
+      { key: "save",  label: "Savings",     icon: <IcoSave /> },
+      { key: "rep",   label: "Reports",     icon: <IcoReport /> },
+    ],
+  },
+  {
+    label: "System",
+    items: [
+      { key: "set",   label: "Settings",    icon: <IcoSet /> },
+      { key: "not",   label: "Notifications", icon: <IcoBell />, badge: 5, badgeVariant: "danger" },
+    ],
+  },
+];
+
 export function PlaygroundPage() {
   // Modal state
   const [basicModal, setBasicModal]       = useState(false);
@@ -90,6 +195,9 @@ export function PlaygroundPage() {
   // Dropdown state
   const [currency, setCurrency]           = useState("inr");
   const [account, setAccount]             = useState("");
+
+  // Sidebar collapse state (for demo)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#09090B] p-10 text-white">
@@ -117,7 +225,7 @@ export function PlaygroundPage() {
               <Button variant="danger">Delete Account</Button>
               <Button variant="outline">View Statement</Button>
               <Button variant="ghost">Ghost Action</Button>
-              <Button variant="gold">✦ Upgrade to Pro</Button>
+              <Button variant="gold" leftIcon={<Sparkles size={14} />}>Upgrade to Pro</Button>
             </div>
           </div>
 
@@ -629,8 +737,8 @@ export function PlaygroundPage() {
             }
           >
             <div className="rounded-xl border border-red-900/40 bg-red-950/20 px-4 py-3">
-              <Text className="text-sm text-red-400">
-                ⚠ You will lose all transaction history, saved accounts, and preferences.
+              <Text className="text-sm text-red-400 flex items-center gap-2">
+                <AlertTriangle size={16} /> You will lose all transaction history, saved accounts, and preferences.
               </Text>
             </div>
           </Modal>
@@ -678,6 +786,143 @@ export function PlaygroundPage() {
               </InputGroup>
             </div>
           </Modal>
+        </section>
+
+        {/* ── NAVIGATION ─────────────────────────────────────────── */}
+        <section className="space-y-12">
+          <Heading level={3}>Navigation</Heading>
+
+          {/* ── Navbar ── */}
+          <div className="space-y-4">
+            <Muted>Navbar — glass top-bar with links, action icons &amp; mobile drawer</Muted>
+            <div className="overflow-hidden rounded-2xl border border-zinc-800">
+              <Navbar
+                appName="FinanceSharks"
+                items={navItems}
+                actions={navActions}
+                userSlot={
+                  <Avatar fallback="RK" size="sm" status="online" />
+                }
+              />
+              <div className="bg-zinc-900/60 px-6 py-4">
+                <Muted>↑ Resize the window to see the mobile hamburger menu</Muted>
+              </div>
+            </div>
+
+            {/* Sticky navbar note */}
+            <div className="flex flex-wrap gap-3">
+              <Badge variant="info">sticky prop</Badge>
+              <Badge variant="default">mobile drawer</Badge>
+              <Badge variant="success">active link underline</Badge>
+              <Badge variant="warning">badge count</Badge>
+              <Badge variant="violet">glass morphism</Badge>
+            </div>
+          </div>
+
+          {/* ── Sidebar ── */}
+          <div className="space-y-4">
+            <Muted>Sidebar — collapsible rail with groups, badges &amp; hover tooltips</Muted>
+            <div className="flex overflow-hidden rounded-2xl border border-zinc-800" style={{ height: 340 }}>
+              <Sidebar
+                groups={sidebarGroups}
+                collapsed={sidebarCollapsed}
+                onCollapsedChange={setSidebarCollapsed}
+                footer={
+                  !sidebarCollapsed ? (
+                    <div className="flex items-center gap-3 px-2 py-1">
+                      <Avatar fallback="RK" size="sm" status="online" />
+                      <div>
+                        <Text className="text-xs font-semibold leading-tight">Rahul Kumar</Text>
+                        <Muted className="text-[11px]">Pro Plan</Muted>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center">
+                      <Avatar fallback="RK" size="sm" status="online" />
+                    </div>
+                  )
+                }
+              />
+              <div className="flex flex-1 flex-col gap-3 bg-zinc-900/60 p-6">
+                <Text className="font-semibold">Dashboard</Text>
+                <Muted>Click the ‹ toggle on the sidebar edge to collapse it to icon-only rail mode.</Muted>
+                <div className="mt-2 flex gap-2">
+                  <Badge variant="info">grouped items</Badge>
+                  <Badge variant="success">hover tooltips</Badge>
+                  <Badge variant="default">badge variants</Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Breadcrumbs ── */}
+          <div className="space-y-6">
+            <Muted>Breadcrumbs — three variants with collapse &amp; custom separators</Muted>
+
+            <div className="space-y-2">
+              <Muted>Default</Muted>
+              <Breadcrumbs
+                items={[
+                  { label: "Home",      icon: <IcoHome />,   onClick: () => {} },
+                  { label: "Finance",                        onClick: () => {} },
+                  { label: "Portfolio",                      onClick: () => {} },
+                  { label: "Overview" },
+                ]}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Muted>Ghost</Muted>
+              <Breadcrumbs
+                variant="ghost"
+                items={[
+                  { label: "Home",        onClick: () => {} },
+                  { label: "Transactions",onClick: () => {} },
+                  { label: "May 2026",    onClick: () => {} },
+                  { label: "#TXN-00821" },
+                ]}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Muted>Pill</Muted>
+              <Breadcrumbs
+                variant="pill"
+                items={[
+                  { label: "Home",     onClick: () => {} },
+                  { label: "Savings",  onClick: () => {} },
+                  { label: "SIP Plan" },
+                ]}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Muted>Auto-collapse (maxItems=4) — 6 items collapses to ···</Muted>
+              <Breadcrumbs
+                maxItems={4}
+                items={[
+                  { label: "Home",       onClick: () => {} },
+                  { label: "Finance",    onClick: () => {} },
+                  { label: "Portfolio",  onClick: () => {} },
+                  { label: "Equities",   onClick: () => {} },
+                  { label: "NSE",        onClick: () => {} },
+                  { label: "RELIANCE" },
+                ]}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Muted>Custom separator — dot</Muted>
+              <Breadcrumbs
+                separator={<span style={{ color: '#38bdf8', fontSize: '1rem', lineHeight: 1 }}>·</span>}
+                items={[
+                  { label: "Dashboard",  onClick: () => {} },
+                  { label: "Reports",    onClick: () => {} },
+                  { label: "Q1 2026" },
+                ]}
+              />
+            </div>
+          </div>
         </section>
 
       </div>

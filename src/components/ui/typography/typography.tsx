@@ -13,121 +13,50 @@ const headingStyles = {
   4: "text-xl font-medium tracking-tight",
 };
 
-export function Heading({
-  className,
-  level = 1,
-  children,
-  ...props
-}: HeadingProps) {
+export function Heading({ className, level = 1, children, ...props }: HeadingProps) {
   const Comp = `h${level}` as React.ElementType;
-
   return (
-    <Comp
-      className={cn(
-        "text-white antialiased",
-        headingStyles[level],
-        className
-      )}
-      {...props}
-    >
+    <Comp className={cn("text-[var(--text-primary)] antialiased", headingStyles[level], className)} {...props}>
       {children}
     </Comp>
   );
 }
 
-export function Text({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+export function Text({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p
-      className={cn(
-        "text-sm leading-7 text-zinc-300 antialiased",
-        className
-      )}
-      {...props}
-    >
+    <p className={cn("text-sm leading-7 text-[var(--text-secondary)] antialiased", className)} {...props}>
       {children}
     </p>
   );
 }
 
-export function Muted({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+export function Muted({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p
-      className={cn(
-        "text-sm text-zinc-500 antialiased",
-        className
-      )}
-      {...props}
-    >
+    <p className={cn("text-sm text-[var(--text-tertiary)] antialiased", className)} {...props}>
       {children}
     </p>
   );
 }
 
-export function Label({
-  className,
-  children,
-  ...props
-}: React.LabelHTMLAttributes<HTMLLabelElement>) {
+export function Label({ className, children, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
-    <label
-      className={cn(
-        "text-sm font-medium text-zinc-200 antialiased",
-        className
-      )}
-      {...props}
-    >
+    <label className={cn("text-sm font-medium text-[var(--text-secondary)] antialiased", className)} {...props}>
       {children}
     </label>
   );
 }
 
-export function Metric({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+export function Metric({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p
-      className={cn(
-        "text-4xl font-semibold tracking-tight text-white antialiased",
-        className
-      )}
-      {...props}
-    >
+    <p className={cn("text-4xl font-semibold tracking-tight text-[var(--text-primary)] antialiased", className)} {...props}>
       {children}
     </p>
   );
 }
 
-export function GradientText({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) {
+export function GradientText({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
-    <span
-      className={cn(
-        [
-          "bg-gradient-to-r",
-          "from-violet-400",
-          "via-fuchsia-300",
-          "to-violet-200",
-          "bg-clip-text",
-          "text-transparent",
-          "antialiased",
-        ],
-        className
-      )}
-      {...props}
-    >
+    <span className={cn("bg-gradient-to-r from-[var(--color-accent)] via-amber-300 to-amber-200 bg-clip-text text-transparent antialiased", className)} {...props}>
       {children}
     </span>
   );

@@ -2,70 +2,30 @@ import * as React from "react";
 
 import { cn } from "@/utils/cn";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
 }
 
-export const Input = React.forwardRef<
-  HTMLInputElement,
-  InputProps
->(({ className, type, error, ...props }, ref) => {
-  return (
-    <input
-      type={type}
-      className={cn(
-        [
-          // Layout
-          "flex h-12 w-full",
-
-          // Shape
-          "rounded-2xl",
-
-          // Border
-          "border border-white/[0.06]",
-
-          // Background
-          "bg-[#0F0F12]/80",
-
-          // Padding
-          "px-4 py-3",
-
-          // Typography
-          "text-sm text-white placeholder:text-zinc-500",
-
-          // Blur softness
-          "backdrop-blur-xl",
-
-          // Motion
-          "transition-all duration-300 ease-out",
-
-          // Focus
-          "focus:outline-none",
-          "focus:ring-2",
-          "focus:ring-violet-500/30",
-          "focus:border-violet-500/30",
-
-          // Hover
-          "hover:border-white/[0.10]",
-
-          // Disabled
-          "disabled:cursor-not-allowed",
-          "disabled:opacity-50",
-
-          // Error state
-          error &&
-            "border-red-500/40 focus:ring-red-500/30",
-
-          // Shadow depth
-          "shadow-lg shadow-black/20",
-        ],
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  );
-});
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, error, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-11 w-full rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]/80 px-4 py-3",
+          "text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] backdrop-blur-xl",
+          "transition-all duration-200 ease-out",
+          "focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/25 focus:border-[var(--color-accent)]/40",
+          "hover:border-[var(--border-color-hover)]",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          error && "border-[var(--color-danger)]/40 focus:ring-[var(--color-danger)]/25",
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
 
 Input.displayName = "Input";
