@@ -1,0 +1,112 @@
+# FinanceSharks — Full-Stack Implementation Plan
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19 + Vite + TypeScript + Tailwind CSS 4 + Framer Motion (existing) |
+| Backend | ASP.NET Core 10 Web API (C#) |
+| Database | Supabase (PostgreSQL) via Entity Framework Core |
+| Auth | JWT access tokens + refresh tokens |
+| Testing | xUnit + Moq (backend), Vitest + React Testing Library (frontend) |
+
+---
+
+## Project Structure
+
+```
+financesharks/
+├── frontend/
+│   └── src/
+│       ├── components/          ← UI components
+│       ├── pages/               ← Page components
+│       ├── context/             ← React contexts (Auth, Theme, etc.)
+│       ├── hooks/               ← Custom hooks
+│       ├── services/api/        ← API client + service modules
+│       └── lib/                 ← Utilities, constants
+├── backend/
+│   └── Financesharks.Api/
+│       ├── Controllers/         ← API endpoints
+│       ├── Models/              ← Domain entities
+│       ├── Data/                ← DbContext + migrations
+│       ├── DTOs/                ← Request/response models
+│       ├── Services/            ← Business logic
+│       ├── Auth/                ← JWT + password hashing
+│       └── Middleware/          ← Exception handling, rate limiting, security
+├── .gitignore
+└── plan.txt
+```
+
+---
+
+## Status
+
+### ✅ Completed — Backend Foundation
+- [x] ASP.NET Core 10 Web API project
+- [x] Domain models (User, Account, Transaction, Goal, Holding, Budget, Family, etc.)
+- [x] EF Core DbContext with PostgreSQL (Supabase)
+- [x] JWT auth (register, login, refresh, logout)
+- [x] BCrypt password hashing (work factor 12)
+- [x] All CRUD service endpoints (Accounts, Transactions, Goals, Holdings, etc.)
+- [x] Dashboard summary endpoint
+- [x] Reports (net worth, spending by category, income vs expense)
+- [x] Profile management + password change
+- [x] Family management (invite, roles)
+- [x] Insights (tips, market, portfolio health)
+- [x] Exception handling middleware
+- [x] Rate limiting middleware
+- [x] Security headers middleware
+- [x] Input validation (strengthened auth DTOs)
+- [x] Secrets management (user-secrets + env vars)
+- [x] CORS configuration
+
+### ✅ Completed — Frontend Services
+- [x] Axios client with JWT interceptor + auto-refresh
+- [x] API service modules (auth, accounts, transactions, goals, holdings, dashboard, reports, profile, family, insights)
+- [x] AuthContext (login, register, logout, session restore)
+- [x] AuthProvider in RootLayout
+- [x] ProtectedRoute component
+- [x] useAuth hook + useApi hook
+- [x] LoginPage with real auth (sign in / sign up)
+- [x] App.tsx with protected routes
+
+### ❌ Pending — Wire Up Pages to API
+- [ ] DashboardPage — replace mock data with API calls
+- [ ] TransactionsPage — CRUD via API
+- [ ] GoalsPage — CRUD via API
+- [ ] PortfolioPage — holdings + summary via API
+- [ ] ReportsPage — dynamic chart data from API
+- [ ] SettingsPage — save to API
+- [ ] ProfilePage — edit via API
+- [ ] CollaborationPage — family API
+- [ ] InsightsPage — tips + market via API
+
+### ❌ Pending — Testing
+- [ ] Backend unit tests (xUnit + Moq)
+- [ ] Backend integration tests
+- [ ] Frontend component tests (Vitest + RTL)
+- [ ] API integration tests
+
+### ❌ Pending — Polish
+- [ ] Loading skeletons on all pages
+- [ ] Toast notifications for mutations
+- [ ] Empty states
+- [ ] Pagination for transactions
+- [ ] Error boundaries
+
+---
+
+## How to Run
+
+```bash
+# Terminal 1 — Backend
+cd backend/Financesharks.Api
+dotnet run --launch-profile http
+
+# Terminal 2 — Frontend
+cd frontend
+npm run dev
+```
+
+Backend: http://localhost:5000  
+Frontend: http://localhost:5173

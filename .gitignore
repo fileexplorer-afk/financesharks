@@ -1,3 +1,22 @@
+# ─── Secrets & Config ──────────────────────────────────────────────────────
+# User secrets (stored outside project directory, never committed)
+appsettings.Development.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # Logs
 logs
 *.log
@@ -7,18 +26,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
-*.local
+**/bin/
+**/obj/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
