@@ -37,6 +37,50 @@ client.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as RequestConfig;
 
+    // Handle validation errors (400) with user-friendly messages
+    if (error.response?.status === 400) {
+      const data = error.response.data as Record<string, unknown> | undefined;
+      if (data && typeof data === 'object') {
+        // ASP.NET Core ValidationProblemDetails format
+        const errors = data.errors as Record<string, string[]> | undefined;
+        if (errors) {
+          const messages = Object.values(errors).flat();
+          return Promise.reject(new Error(messages.join('\n')));
+        }
+        // Generic error with title/detail
+        const detail = data.detail as string | undefined;
+        if (detail) return Promise.reject(new Error(detail));
+        const title = data.title as string | undefined;
+        if (title) return Promise.reject(new Error(title));
+      }
+      return Promise.reject(new Error('Invalid request. Please check your input.'));
+    }
+
+    // Handle other known error types
+    if (error.response?.status === 401) {
+      return Promise.reject(new Error('Authentication required. Please log in.'));
+    }
+
+    if (error.response?.status === 403) {
+      return Promise.reject(new Error('You do not have permission to perform this action.'));
+    }
+
+    if (error.response?.status === 404) {
+      return Promise.reject(new Error('The requested resource was not found.'));
+    }
+
+    if (error.response?.status === 409) {
+      return Promise.reject(new Error('A conflict occurred. This resource may already exist.'));
+    }
+
+    if (error.response?.status === 429) {
+      return Promise.reject(new Error('Too many requests. Please try again later.'));
+    }
+
+    if (error.response?.status === 500) {
+      return Promise.reject(new Error('Server error. Please try again later.'));
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry && refreshToken) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {

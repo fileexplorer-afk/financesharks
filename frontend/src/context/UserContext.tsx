@@ -7,6 +7,7 @@ interface UserContextType {
     name: string;
     email: string;
     tier: string;
+    role: string;
     avatarUrl: string | null;
     joinedAt: string;
     [key: string]: unknown;
@@ -19,6 +20,7 @@ const defaultUser = {
   name: 'User',
   email: '',
   tier: 'free',
+  role: 'user',
   avatarUrl: null as string | null,
   joinedAt: new Date().toISOString().split('T')[0],
 };
@@ -36,6 +38,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         name: auth.user.name,
         email: auth.user.email,
         tier: auth.user.tier,
+        role: auth.user.role,
         avatarUrl: auth.user.avatarUrl,
         joinedAt: auth.user.createdAt || new Date().toISOString().split('T')[0],
       });

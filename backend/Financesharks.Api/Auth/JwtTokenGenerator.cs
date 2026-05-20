@@ -9,7 +9,7 @@ namespace Financesharks.Api.Auth;
 
 public interface IJwtTokenGenerator
 {
-    (string token, DateTime expiresAt) GenerateAccessToken(Guid userId, string email, string name);
+    (string token, DateTime expiresAt) GenerateAccessToken(Guid userId, string email, string name, string role);
     string GenerateRefreshToken();
 }
 
@@ -22,7 +22,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _settings = settings.Value;
     }
 
-    public (string token, DateTime expiresAt) GenerateAccessToken(Guid userId, string email, string name)
+    public (string token, DateTime expiresAt) GenerateAccessToken(Guid userId, string email, string name, string role)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -34,6 +34,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, email),
             new Claim(JwtRegisteredClaimNames.Name, name),
+            new Claim(ClaimTypes.Role, role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

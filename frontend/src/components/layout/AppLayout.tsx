@@ -8,7 +8,7 @@ import { Navbar } from '@/components/navigation/navbar';
 import { Sidebar } from '@/components/navigation/sidebar';
 import { Avatar } from '@/components/ui/avatar';
 import { Text, Muted } from '@/components/ui/typography';
-import { useUser } from '@/hooks';
+import { useUser, useAuth } from '@/hooks';
 import { useTheme } from '@/hooks/useTheme';
 import type { NavItem, NavbarAction, SidebarGroup, SidebarItem } from '@/components/navigation';
 
@@ -92,6 +92,7 @@ const routeMap: Record<string, string> = {
   reports: '/reports',
   settings: '/settings',
   pricing: '/pricing',
+  admin: '/admin',
   profile: '/profile',
   family: '/collaboration',
   associations: '/settings',
@@ -107,6 +108,7 @@ const profileMenu = [
 export function AppLayout({ children, activeKey }: AppLayoutProps) {
   const { user } = useUser();
   const { theme, toggleTheme } = useTheme();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -158,6 +160,15 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
     key, label, icon, active: activeKey === key, onClick: () => go(key), ...extra,
   });
 
+  const isAdmin = user.role === 'admin';
+
+  const IcoAdmin = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M8 1l1.5 3.5H13l-3 2.5 1.5 3.5-3-2.5-3 2.5 1.5-3.5-3-2.5h3.5L8 1z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+      <circle cx="8" cy="11" r="2.5" stroke="currentColor" strokeWidth="1.2"/>
+    </svg>
+  );
+
   const sidebarGroups: SidebarGroup[] = [
     {
       label: 'Overview',
@@ -187,6 +198,12 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
         sidebarItem('settings', 'Settings', <IcoSet />),
       ],
     },
+    ...(isAdmin ? [{
+      label: 'Admin',
+      items: [
+        sidebarItem('admin', 'Admin Panel', <IcoAdmin />, { badge: '' }),
+      ],
+    } as SidebarGroup] : []),
   ];
 
   return (
@@ -246,7 +263,7 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
                     </div>
                     <div className="p-2 border-t border-[var(--border-color)]">
                       <button
-                        onClick={() => { setProfileOpen(false); navigate('/login'); }}
+                        onClick={() => { setProfileOpen(false); logout(); }}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[var(--color-danger)] hover:bg-red-500/10 transition-colors"
                       >
                         <LogOut size={15} />

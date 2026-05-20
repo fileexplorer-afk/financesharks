@@ -87,6 +87,7 @@ public class AuthService : IAuthService
             Name = user.Name,
             Email = user.Email,
             Tier = user.Tier,
+            Role = user.Role,
             AvatarUrl = user.AvatarUrl,
             CreatedAt = user.CreatedAt,
         };
@@ -94,7 +95,7 @@ public class AuthService : IAuthService
 
     private async Task<AuthResponse> GenerateAuthResponseAsync(User user)
     {
-        var (accessToken, expiresAt) = _jwt.GenerateAccessToken(user.Id, user.Email, user.Name);
+        var (accessToken, expiresAt) = _jwt.GenerateAccessToken(user.Id, user.Email, user.Name, user.Role);
         var refreshTokenValue = _jwt.GenerateRefreshToken();
 
         var refreshToken = new RefreshToken
@@ -113,6 +114,7 @@ public class AuthService : IAuthService
             Name = user.Name,
             Email = user.Email,
             Tier = user.Tier,
+            Role = user.Role,
             AvatarUrl = user.AvatarUrl,
             AccessToken = accessToken,
             RefreshToken = refreshTokenValue,

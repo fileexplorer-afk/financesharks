@@ -67,13 +67,15 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IFamilyService, FamilyService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<IInsightService, InsightService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 // ─── Controllers & Swagger ────────────────────────────────────────────────────
 builder.Services.AddControllers(options =>
 {
     options.MaxModelValidationErrors = 5;
 });
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // ─── CORS ──────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
@@ -107,7 +109,8 @@ app.UseMiddleware<RateLimitingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -119,5 +122,21 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// ─── Seed admin user on startup ──────────────────────────────────────────────
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var adminEmail = builder.Configuration["AdminEmail"];
+    if (!string.IsNullOrWhiteSpace(adminEmail))
+    {
+        var admin = await db.Users.FirstOrDefaultAsync(u => u.Email == adminEmail);
+        if (admin != null && admin.Role != "admin")
+        {
+            admin.Role = "admin";
+            await db.SaveChangesAsync();
+        }
+    }
+}
 
 app.Run();

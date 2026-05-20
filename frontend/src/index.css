@@ -2,6 +2,20 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-muted: var(--bg-tertiary);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent-foreground: var(--text-primary);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: #0c0c0c;
+  --color-border: var(--border-color);
+  --color-ring: var(--color-accent);
+  --color-input: var(--border-color);
+  --color-destructive: var(--color-danger);
+}
+
 @layer base {
   :root {
     --bg-primary: #07070A;
@@ -111,5 +125,127 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--text-tertiary);
+  }
+}
+
+/* Box Loader */
+.boxes {
+  --size: 32px;
+  --duration: 800ms;
+  height: calc(var(--size) * 2);
+  width: calc(var(--size) * 2);
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  margin-top: calc(var(--size) * 1.5 * -1);
+  transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+}
+
+.boxes .box {
+  width: var(--size);
+  height: var(--size);
+  top: 0;
+  left: 0;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.boxes .box:nth-child(1) {
+  animation: box1 var(--duration) linear infinite;
+  transform: translate(100%, 0);
+}
+
+.boxes .box:nth-child(2) {
+  animation: box2 var(--duration) linear infinite;
+  transform: translate(0, 100%);
+}
+
+.boxes .box:nth-child(3) {
+  animation: box3 var(--duration) linear infinite;
+  transform: translate(100%, 100%);
+}
+
+.boxes .box:nth-child(4) {
+  animation: box4 var(--duration) linear infinite;
+  transform: translate(200%, 0);
+}
+
+.boxes .box .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.boxes .box .face.face-front {
+  background: var(--color-accent, #F59E0B);
+  transform: rotateY(0deg) translateZ(calc(var(--size) / 2));
+}
+
+.boxes .box .face.face-back {
+  background: var(--color-accent, #D97706);
+  transform: rotateY(180deg) translateZ(calc(var(--size) / 2));
+}
+
+.boxes .box .face.face-right {
+  background: var(--color-accent-hover, #FBBF24);
+  transform: rotateY(90deg) translateZ(calc(var(--size) / 2));
+}
+
+.boxes .box .face.face-left {
+  background: var(--color-accent-hover, #D97706);
+  transform: rotateY(-90deg) translateZ(calc(var(--size) / 2));
+}
+
+.boxes .box .face.face-top {
+  background: #E68A00;
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+}
+
+.boxes .box .face.face-bottom {
+  background: #CC7A00;
+  transform: rotateX(-90deg) translateZ(calc(var(--size) / 2));
+}
+
+@keyframes box1 {
+  0%,
+    50% {
+    transform: translate(100%, 0);
+  }
+  100% {
+    transform: translate(200%, 0);
+  }
+}
+
+@keyframes box2 {
+  0% {
+    transform: translate(0, 100%);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100%, 0);
+  }
+}
+
+@keyframes box3 {
+  0%,
+    50% {
+    transform: translate(100%, 100%);
+  }
+  100% {
+    transform: translate(0, 100%);
+  }
+}
+
+@keyframes box4 {
+  0% {
+    transform: translate(200%, 0);
+  }
+  50% {
+    transform: translate(200%, 100%);
+  }
+  100% {
+    transform: translate(100%, 100%);
   }
 }

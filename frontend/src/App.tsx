@@ -13,6 +13,8 @@ import { CollaborationPage } from '@/pages/CollaborationPage';
 import { ReportsPage } from '@/pages/ReportsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { PricingPage } from '@/pages/PricingPage';
+import { AdminPage } from '@/pages/AdminPage';
+import LandingPage from '@/pages/LandingPage';
 
 const P = ({ children }: { children: React.ReactNode }) => <ProtectedRoute>{children}</ProtectedRoute>;
 
@@ -21,8 +23,8 @@ function App() {
     <RootLayout>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<P><DashboardPage /></P>} />
           <Route path="/profile" element={<P><ProfilePage /></P>} />
           <Route path="/dashboard" element={<P><DashboardPage /></P>} />
           <Route path="/portfolio" element={<P><PortfolioPage /></P>} />
@@ -33,6 +35,7 @@ function App() {
           <Route path="/reports" element={<P><ReportsPage /></P>} />
           <Route path="/settings" element={<P><SettingsPage /></P>} />
           <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/admin" element={<P><AdminPage /></P>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

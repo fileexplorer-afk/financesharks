@@ -61,6 +61,7 @@ Auth/
  PasswordHasher.cs
 Controllers/
  AccountsController.cs
+ AdminController.cs
  AuthController.cs
  DashboardController.cs
  FamilyController.cs
@@ -92,10 +93,14 @@ DTOs/
  Transactions/
   CreateTransactionRequest.cs
   TransactionResponse.cs
-Middleware/ExceptionHandlingMiddleware.cs
+Middleware/
+ ExceptionHandlingMiddleware.cs
+ RateLimitingMiddleware.cs
 Migrations/
  20260515094857_Initial.cs
  20260515094857_Initial.Designer.cs
+ 20260518104708_AddUserRole.cs
+ 20260518104708_AddUserRole.Designer.cs
  AppDbContextModelSnapshot.cs
 Models/
  Account.cs
@@ -114,6 +119,7 @@ obj/Debug/net10.0/
 Program.cs
 Services/
  AccountService.cs
+ AdminService.cs
  AuthService.cs
  BudgetService.cs
  DashboardService.cs
@@ -121,6 +127,7 @@ Services/
  GoalService.cs
  HoldingService.cs
  IAccountService.cs
+ IAdminService.cs
  IAuthService.cs
  IBudgetService.cs
  IDashboardService.cs
@@ -460,9 +467,12 @@ WeatherForecast.cs
  microsoft.identitymodel.protocols.openidconnect/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
  microsoft.identitymodel.protocols/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.dll
  microsoft.identitymodel.tokens/8.0.1/lib/net9.0/Microsoft.IdentityModel.Tokens.dll
- microsoft.openapi/2.0.0/lib/net8.0/Microsoft.OpenApi.dll
+ microsoft.openapi/2.4.1/lib/net8.0/Microsoft.OpenApi.dll
  npgsql.entityframeworkcore.postgresql/10.0.1/lib/net10.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
  npgsql/10.0.2/lib/net10.0/Npgsql.dll
+ swashbuckle.aspnetcore.swagger/10.1.7/lib/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+ swashbuckle.aspnetcore.swaggergen/10.1.7/lib/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+ swashbuckle.aspnetcore.swaggerui/10.1.7/lib/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll
  system.identitymodel.tokens.jwt/8.0.1/lib/net9.0/System.IdentityModel.Tokens.Jwt.dll
 
 [analyzerReferences]

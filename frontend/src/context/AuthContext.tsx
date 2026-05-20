@@ -35,13 +35,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     const res = await authApi.login(email, password);
     setTokens(res.accessToken, res.refreshToken);
-    setUser({ id: res.userId, name: res.name, email: res.email, tier: res.tier, avatarUrl: res.avatarUrl, createdAt: '' });
+    setUser({ id: res.userId, name: res.name, email: res.email, tier: res.tier, role: res.role, avatarUrl: res.avatarUrl, createdAt: '' });
   }, []);
 
   const register = useCallback(async (name: string, email: string, password: string) => {
     const res = await authApi.register(name, email, password);
     setTokens(res.accessToken, res.refreshToken);
-    setUser({ id: res.userId, name: res.name, email: res.email, tier: res.tier, avatarUrl: res.avatarUrl, createdAt: '' });
+    setUser({ id: res.userId, name: res.name, email: res.email, tier: res.tier, role: res.role, avatarUrl: res.avatarUrl, createdAt: '' });
   }, []);
 
   const logout = useCallback(async () => {

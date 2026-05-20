@@ -5,6 +5,7 @@ export interface AuthResponse {
   name: string;
   email: string;
   tier: string;
+  role: string;
   avatarUrl: string | null;
   accessToken: string;
   refreshToken: string;
@@ -16,6 +17,7 @@ export interface UserResponse {
   name: string;
   email: string;
   tier: string;
+  role: string;
   avatarUrl: string | null;
   createdAt: string;
 }

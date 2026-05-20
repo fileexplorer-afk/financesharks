@@ -22,6 +22,9 @@ public class User
     [MaxLength(20)]
     public string Tier { get; set; } = "free";
 
+    [MaxLength(20)]
+    public string Role { get; set; } = "user";
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
