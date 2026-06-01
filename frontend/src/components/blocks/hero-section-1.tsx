@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import {
   ArrowRight, Menu, X, Sparkles, TrendingUp, Shield, BarChart3,
   Sun, Moon, Star, Users, Zap, Check,
@@ -282,43 +283,94 @@ function PricingSection() {
         </div>
         <div className="grid gap-6 sm:gap-8 md:grid-cols-3 max-w-5xl mx-auto">
           {plans.map((p, i) => (
-            <div key={i} className="relative rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col"
-              style={{
-                background: p.popular ? 'var(--glass-bg)' : 'transparent',
-                backdropFilter: p.popular ? 'blur(var(--glass-blur))' : 'none',
-                border: p.popular ? '1px solid var(--color-accent)' : '1px solid var(--glass-border)',
-                boxShadow: p.popular ? '0 0 30px rgba(245, 158, 11, 0.15), var(--glass-shadow)' : 'none',
-              }}>
+            <div key={i} className="relative">
               {p.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-semibold"
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-semibold z-20"
                   style={{ background: 'var(--color-accent-gradient)', color: 'var(--bg-primary)' }}>
                   Most Popular
                 </div>
               )}
-              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{p.name}</h3>
-              <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>{p.desc}</p>
-              <div className="mb-6">
-                <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>{p.price}</span>
-                <span className="text-sm ml-1" style={{ color: 'var(--text-tertiary)' }}>{p.period}</span>
-              </div>
-              <ul className="space-y-3 mb-8 flex-1">
-                {p.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <Check size={16} style={{ color: 'var(--color-accent)' }} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/login">
-                <Button variant={i === 0 ? 'ghost' : i === 1 ? 'gold' : 'primary'} size="lg" className="w-full rounded-xl">
-                  {p.cta}
-                </Button>
-              </Link>
+              <motion.div
+                whileHover="hover"
+                transition={{ duration: 1, ease: "backInOut" }}
+                variants={{
+                  hover: { scale: 1.04 },
+                }}
+                className="rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col overflow-hidden"
+                style={{
+                  background: 'var(--glass-bg)',
+                  backdropFilter: 'blur(var(--glass-blur))',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow)',
+                }}
+              >
+                <BackgroundShapes />
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{p.name}</h3>
+                  <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>{p.desc}</p>
+                  <div className="mb-6">
+                    <span className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>{p.price}</span>
+                    <span className="text-sm ml-1" style={{ color: 'var(--text-tertiary)' }}>{p.period}</span>
+                  </div>
+                  <ul className="space-y-3 mb-8">
+                    {p.features.map((f, j) => (
+                      <li key={j} className="flex items-center gap-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        <Check size={16} style={{ color: 'var(--color-accent)' }} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Link to="/login" className="relative z-10 mt-auto">
+                  <Button variant={i === 0 ? 'ghost' : i === 1 ? 'gold' : 'primary'} size="lg" className="w-full rounded-xl">
+                    {p.cta}
+                  </Button>
+                </Link>
+              </motion.div>
             </div>
           ))}
         </div>
       </div>
     </section>
+  )
+}
+
+function BackgroundShapes() {
+  return (
+    <motion.svg
+      width="320"
+      height="420"
+      viewBox="0 0 320 420"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="absolute inset-0 z-0 pointer-events-none"
+      variants={{
+        hover: { scale: 1.5 },
+      }}
+      transition={{ duration: 1, ease: "backInOut" }}
+    >
+      <motion.circle
+        variants={{
+          hover: { scaleY: 0.5, y: -25 },
+        }}
+        transition={{ duration: 1, ease: "backInOut", delay: 0.2 }}
+        cx="160.5"
+        cy="114.5"
+        r="101.5"
+        fill="rgba(245,158,11,0.06)"
+      />
+      <motion.ellipse
+        variants={{
+          hover: { scaleY: 2.25, y: -25 },
+        }}
+        transition={{ duration: 1, ease: "backInOut", delay: 0.2 }}
+        cx="160.5"
+        cy="320"
+        rx="101.5"
+        ry="43.5"
+        fill="rgba(245,158,11,0.06)"
+      />
+    </motion.svg>
   )
 }
 

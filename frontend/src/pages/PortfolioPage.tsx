@@ -203,7 +203,7 @@ export function PortfolioPage() {
                   <div className="space-y-2">{[1,2,3].map((i) => <Skeleton key={i} className="h-10 w-full" />)}</div>
                 ) : (
                   <motion.div variants={container} className="space-y-2">
-                    {(portfolio?.sectorAllocation ?? []).map((sector, i) => (
+                    {(portfolio?.sectorAllocation ?? []).map((sector) => (
                       <motion.div
                         key={sector.sector}
                         variants={item}

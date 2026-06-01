@@ -10,6 +10,7 @@ import { Avatar } from '@/components/ui/avatar';
 import { Text, Muted } from '@/components/ui/typography';
 import { useUser, useAuth } from '@/hooks';
 import { useTheme } from '@/hooks/useTheme';
+import { SearchModal, type CommandItem } from '@/components/ui/search-modal';
 import type { NavItem, NavbarAction, SidebarGroup, SidebarItem } from '@/components/navigation';
 
 const IcoDashboard = () => (
@@ -110,11 +111,25 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
   const { theme, toggleTheme } = useTheme();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileTriggerRef = useRef<HTMLButtonElement>(null);
   const profileDropdownRef = useRef<HTMLDivElement>(null);
   const [profilePos, setProfilePos] = useState({ top: 0, right: 0 });
+
+  const searchData: CommandItem[] = [
+    { id: 'dashboard', title: 'Dashboard', description: 'Overview of your finances', category: 'Page', icon: <IcoDashboard />, onSelect: () => navigate('/dashboard') },
+    { id: 'portfolio', title: 'Portfolio', description: 'Track your investments', category: 'Page', icon: <IcoTrend />, onSelect: () => navigate('/portfolio') },
+    { id: 'transactions', title: 'Transactions', description: 'View your transaction history', category: 'Page', icon: <IcoPay />, onSelect: () => navigate('/transactions') },
+    { id: 'goals', title: 'Goals', description: 'Manage your savings goals', category: 'Page', icon: <IcoTarget />, onSelect: () => navigate('/goals') },
+    { id: 'reports', title: 'Reports', description: 'Monthly & yearly reports', category: 'Page', icon: <IcoChart />, onSelect: () => navigate('/reports') },
+    { id: 'insights', title: 'Insights', description: 'AI-powered financial insights', category: 'Premium', icon: <IcoStar />, onSelect: () => navigate('/insights') },
+    { id: 'collab', title: 'Collaboration', description: 'Family & team sharing', category: 'Premium', icon: <IcoStar />, onSelect: () => navigate('/collaboration') },
+    { id: 'settings', title: 'Settings', description: 'Account & preferences', category: 'System', icon: <IcoSet />, onSelect: () => navigate('/settings') },
+    { id: 'profile', title: 'Profile', description: 'Your personal information', category: 'Account', icon: <User size={15} />, onSelect: () => navigate('/profile') },
+    { id: 'pricing', title: 'Pricing', description: 'View available plans', category: 'System', icon: <IcoStar />, onSelect: () => navigate('/pricing') },
+  ];
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -151,7 +166,7 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
   ];
 
   const navActions: NavbarAction[] = [
-    { key: 'search', icon: <IcoSearch />, label: 'Search' },
+    { key: 'search', icon: <IcoSearch />, label: 'Search (Ctrl+K)', onClick: () => setSearchOpen(true) },
     { key: 'theme', icon: theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />, label: theme === 'dark' ? 'Light mode' : 'Dark mode', onClick: toggleTheme },
     { key: 'bell', icon: <IcoBell />, label: 'Notifications', badge: 3 },
   ];
@@ -307,6 +322,8 @@ export function AppLayout({ children, activeKey }: AppLayoutProps) {
           {children}
         </main>
       </div>
+
+      <SearchModal data={searchData} open={searchOpen} onOpenChange={setSearchOpen} />
     </div>
   );
 }

@@ -136,9 +136,9 @@ const CSS = `
     border-radius: 99px;
     font-size: 0.65rem;
     font-weight: 600;
-    background: rgba(56,189,248,0.18);
-    color: #7dd3fc;
-    border: 1px solid rgba(56,189,248,0.25);
+    background: rgba(245,158,11,0.18);
+    color: var(--color-accent);
+    border: 1px solid rgba(245,158,11,0.25);
     line-height: 1;
   }
 
@@ -161,9 +161,9 @@ const CSS = `
     width: 36px;
     height: 36px;
     border-radius: 9px;
-    border: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.04);
-    color: #94a3b8;
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
     cursor: pointer;
     transition:
       color      0.18s ease,
@@ -175,9 +175,9 @@ const CSS = `
   }
 
   .nav__action-btn:hover {
-    color: #e2e8f0;
-    background: rgba(255,255,255,0.09);
-    border-color: rgba(255,255,255,0.13);
+    color: var(--text-primary);
+    background: rgba(245,158,11,0.1);
+    border-color: var(--color-accent);
     transform: translateY(-1px);
   }
 
@@ -192,9 +192,9 @@ const CSS = `
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-    box-shadow: 0 0 6px rgba(56,189,248,0.7);
-    border: 1.5px solid #09090b;
+    background: var(--color-accent);
+    box-shadow: 0 0 6px rgba(245,158,11,0.5);
+    border: 1.5px solid var(--bg-primary);
   }
 
   .nav__action-count {
@@ -210,9 +210,9 @@ const CSS = `
     border-radius: 99px;
     font-size: 0.6rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-    color: #0c1a2e;
-    border: 1.5px solid #09090b;
+    background: var(--color-accent);
+    color: var(--bg-primary);
+    border: 1.5px solid var(--bg-primary);
     line-height: 1;
   }
 
@@ -220,7 +220,7 @@ const CSS = `
   .nav__divider {
     width: 1px;
     height: 22px;
-    background: rgba(255,255,255,0.08);
+    background: var(--border-color);
     margin: 0 8px;
     flex-shrink: 0;
   }
@@ -245,14 +245,14 @@ const CSS = `
     border-radius: 8px;
     transition: background 0.15s;
   }
-  .nav__hamburger:hover { background: rgba(255,255,255,0.07); }
+  .nav__hamburger:hover { background: var(--bg-tertiary); }
 
   .nav__hamburger-bar {
     display: block;
     width: 20px;
     height: 2px;
     border-radius: 2px;
-    background: #94a3b8;
+    background: var(--text-secondary);
     transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
     transform-origin: center;
   }
@@ -274,10 +274,10 @@ const CSS = `
     left: 0;
     right: 0;
     z-index: 10000;
-    background: rgba(9, 9, 11, 0.96);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     padding: 12px 16px 20px;
     display: flex;
     flex-direction: column;
@@ -300,7 +300,7 @@ const CSS = `
     border-radius: 10px;
     font-size: 0.88rem;
     font-weight: 500;
-    color: #94a3b8;
+    color: var(--text-secondary);
     text-decoration: none;
     cursor: pointer;
     border: none;
@@ -313,8 +313,8 @@ const CSS = `
   }
 
   .nav__drawer-link:hover:not(.nav__drawer-link--disabled) {
-    color: #e2e8f0;
-    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
   }
 
   .nav__drawer-link--active {
@@ -362,8 +362,8 @@ function injectNavCSS() {
 
 const DefaultLogo = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <path d="M9 2L16 6V12L9 16L2 12V6L9 2Z" fill="#0c1a2e" />
-    <path d="M6 9.5L8 11.5L12 7.5" stroke="#0c1a2e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M9 2L16 6V12L9 16L2 12V6L9 2Z" fill="var(--bg-primary)" />
+    <path d="M6 9.5L8 11.5L12 7.5" stroke="var(--bg-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 

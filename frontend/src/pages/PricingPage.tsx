@@ -79,7 +79,7 @@ export function PricingPage() {
               <motion.div
                 key={tier}
                 variants={item}
-                whileHover={isPremium ? { y: -8, scale: 1.02 } : { y: -4 }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="relative"
               >
@@ -89,7 +89,7 @@ export function PricingPage() {
                   </div>
                 )}
 
-                <Card className={`h-full flex flex-col ${isPremium ? "ring-2 ring-[var(--color-accent)]/30 shadow-xl shadow-[var(--color-accent)]/5" : ""}`}>
+                <Card className="h-full flex flex-col transition-all duration-300 border border-[var(--border-color)] hover:ring-2 hover:ring-[var(--color-accent)]/30 hover:shadow-xl hover:shadow-[var(--color-accent)]/5">
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
                       {tierIcons[tier]}

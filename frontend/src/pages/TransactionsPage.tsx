@@ -31,7 +31,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 export function TransactionsPage() {
   const [transactions, setTransactions] = useState<transactionsApi.TransactionResponse[]>([]);
-  const [accounts, setAccounts] = useState<{ name: string; type: string }[]>([]);
+  const [_accounts, setAccounts] = useState<{ name: string; type: string }[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

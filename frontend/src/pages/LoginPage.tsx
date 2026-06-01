@@ -51,6 +51,7 @@ export function LoginPage() {
       onRegister={handleRegister}
       loading={loading}
       error={error}
+      onLogoClick={() => navigate("/")}
     />
   );
 }

@@ -1,4 +1,4 @@
-import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
@@ -7,7 +7,7 @@ const client = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-type RequestConfig = AxiosRequestConfig & { _retry?: boolean; headers?: Record<string, string> };
+type RequestConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
 let accessToken: string | null = localStorage.getItem('accessToken');
 let refreshToken: string | null = localStorage.getItem('refreshToken');

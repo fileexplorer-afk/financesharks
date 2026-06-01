@@ -27,7 +27,7 @@ export function ReportsPage() {
   const [netWorth, setNetWorth] = useState<reportsApi.NetWorth | null>(null);
   const [categories, setCategories] = useState<reportsApi.SpendingByCategory[]>([]);
   const [incomeExpense, setIncomeExpense] = useState<reportsApi.IncomeVsExpense[]>([]);
-  const [accounts, setAccounts] = useState<dashboardApi.AccountResponse[]>([]);
+  const [accounts, setAccounts] = useState<AccountResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

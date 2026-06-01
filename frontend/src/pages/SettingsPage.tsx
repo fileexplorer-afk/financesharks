@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { User, Palette, Lock, Bell, CreditCard, Smartphone, ShieldCheck } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, Palette, Lock, Bell, CreditCard, Smartphone, ShieldCheck, Sun, Moon, Monitor } from "lucide-react";
 import { AppLayout } from "@/components/layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,46 @@ const item = {
   show: { opacity: 1, x: 0, transition: { duration: 0.35 } },
 };
 
+function Toggle({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+      className="relative w-11 h-6 rounded-full shrink-0 transition-all duration-300"
+      style={{
+        backgroundColor: checked ? 'var(--color-accent)' : 'var(--bg-tertiary)',
+        boxShadow: checked ? '0 0 12px rgba(245, 158, 11, 0.35)' : 'none',
+      }}
+    >
+      <motion.div
+        animate={{ x: checked ? 22 : 2 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md"
+      />
+    </button>
+  );
+}
+
 export function SettingsPage() {
   const { user } = useUser();
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("profile");
+  const [compact, setCompact] = useState(() => localStorage.getItem("compactView") === "true");
+
+  const toggleCompact = () => {
+    const next = !compact;
+    setCompact(next);
+    localStorage.setItem("compactView", String(next));
+    document.documentElement.setAttribute("data-compact", String(next));
+  };
+
+  useEffect(() => {
+    const isCompact = localStorage.getItem("compactView") === "true";
+    if (isCompact) document.documentElement.setAttribute("data-compact", "true");
+  }, []);
 
   return (
     <AppLayout activeKey="settings">
@@ -131,31 +167,29 @@ export function SettingsPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex items-center justify-between p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
-                      <div>
-                        <Text className="font-medium">Dark Mode</Text>
-                        <Muted className="text-sm">Toggle between dark and light themes</Muted>
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[var(--bg-tertiary)] flex items-center justify-center shrink-0" style={{ color: theme === 'dark' ? 'var(--color-accent)' : 'var(--text-secondary)' }}>
+                          {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
+                        </div>
+                        <div>
+                          <Text className="font-medium">Dark Mode</Text>
+                          <Muted className="text-sm">Toggle between dark and light themes</Muted>
+                        </div>
                       </div>
-                      <button
-                        onClick={toggleTheme}
-                        role="switch"
-                        aria-checked={theme === "dark"}
-                        aria-label="Toggle dark mode"
-                        className={`relative w-12 h-6 rounded-full transition-colors ${theme === "dark" ? "bg-[var(--color-accent)]" : "bg-[var(--bg-tertiary)]"}`}
-                      >
-                        <motion.div
-                          animate={{ x: theme === "dark" ? 24 : 2 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                          className="absolute top-1 w-5 h-5 rounded-full bg-white shadow-lg"
-                        />
-                      </button>
+                      <Toggle checked={theme === "dark"} onChange={toggleTheme} label="Toggle dark mode" />
                     </div>
 
                     <div className="flex items-center justify-between p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
-                      <div>
-                        <Text className="font-medium">Compact View</Text>
-                        <Muted className="text-sm">Show more content per page</Muted>
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[var(--bg-tertiary)] flex items-center justify-center shrink-0">
+                          <Monitor size={16} />
+                        </div>
+                        <div>
+                          <Text className="font-medium">Compact View</Text>
+                          <Muted className="text-sm">Show more content per page</Muted>
+                        </div>
                       </div>
-                      <div className="w-12 h-6 rounded-full bg-[var(--bg-tertiary)]" />
+                      <Toggle checked={compact} onChange={toggleCompact} label="Toggle compact view" />
                     </div>
 
                     <div className="space-y-3">

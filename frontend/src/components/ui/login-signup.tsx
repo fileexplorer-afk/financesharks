@@ -23,6 +23,7 @@ interface LoginSignupProps {
   onRegister: (name: string, email: string, password: string) => Promise<void>
   loading?: boolean
   error?: string
+  onLogoClick?: () => void
 }
 
 const inputCls =
@@ -34,7 +35,7 @@ const btnPrimaryCls =
 const btnOutlineCls =
   "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium h-10 px-4 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border"
 
-export default function LoginSignup({ onLogin, onRegister, loading, error }: LoginSignupProps) {
+export default function LoginSignup({ onLogin, onRegister, loading, error, onLogoClick }: LoginSignupProps) {
   const [tab, setTab] = useState("login")
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
@@ -230,10 +231,15 @@ export default function LoginSignup({ onLogin, onRegister, loading, error }: Log
       />
 
       <header className="absolute left-0 right-0 top-0 flex items-center justify-between px-4 sm:px-6 py-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
-        <span className="flex items-center gap-2 text-[10px] sm:text-xs tracking-[0.14em] uppercase" style={{ color: 'var(--text-tertiary)' }}>
+        <button
+          type="button"
+          onClick={onLogoClick}
+          className="flex items-center gap-2 text-[10px] sm:text-xs tracking-[0.14em] uppercase bg-transparent border-none cursor-pointer hover:opacity-80 transition-opacity p-0"
+          style={{ color: 'var(--text-tertiary)' }}
+        >
           <Sparkles size={14} style={{ color: 'var(--color-accent)' }} />
           FinanceSharks
-        </span>
+        </button>
         <button className="btn-login-outline inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium h-9 px-3 sm:px-4 py-2 transition-colors gap-1.5">
           <span>Contact</span>
           <ArrowRight className="h-4 w-4" />
